@@ -1,0 +1,430 @@
+/*
+ * OHC design tokens
+ * Source: figcraft/design_system.figcraft (variables + styles)
+ * Mobile values only (see the note above .dark).
+ *
+ * 지니데이 파트너 변경 사항 (나머지는 OHC 원본 그대로):
+ * - Primary 스케일은 앱 보라(#864AD2, 생리·로고), Secondary 스케일은 앱 틸(#0A8C8C, 가임기)로 바꿨다.
+ *   500을 앱 색으로 두고, OHC 스케일의 단계별 명도(OKLCH L) 간격을 500 기준으로 비례해 옮긴 뒤
+ *   앱 색의 색상·채도를 입혀 만들었다.
+ * - Light의 primary/secondary solid는 앱 색 그대로 보이도록 600 대신 500을 쓰고,
+ *   hover는 600, 글자색(text)은 대비가 충분한 600을 쓴다.
+ */
+
+:root {
+  /* Primitive */
+  --ohc-primary-50: #F8F5FF;
+  --ohc-primary-100: #EFE7FF;
+  --ohc-primary-200: #D8C5FE;
+  --ohc-primary-300: #C3A1FD;
+  --ohc-primary-400: #A673F0;
+  --ohc-primary-500: #864AD2;
+  --ohc-primary-600: #693AA6;
+  --ohc-primary-700: #573189;
+  --ohc-primary-800: #45286D;
+  --ohc-primary-900: #311D4E;
+  --ohc-primary-950: #1F1332;
+
+  --ohc-secondary-50: #F1F8F8;
+  --ohc-secondary-100: #D7E9E9;
+  --ohc-secondary-200: #ADD3D2;
+  --ohc-secondary-300: #81BDBC;
+  --ohc-secondary-400: #53A4A3;
+  --ohc-secondary-500: #0A8C8C;
+  --ohc-secondary-600: #077A7A;
+  --ohc-secondary-700: #036464;
+  --ohc-secondary-800: #014F4F;
+  --ohc-secondary-900: #033030;
+  --ohc-secondary-950: #061F1F;
+
+  --ohc-neutral-50: #F8FAFC;
+  --ohc-neutral-100: #EAEEF3;
+  --ohc-neutral-200: #DAE1EA;
+  --ohc-neutral-300: #CBD5E1;
+  --ohc-neutral-400: #96A3B5;
+  --ohc-neutral-500: #64748B;
+  --ohc-neutral-600: #4B5A6F;
+  --ohc-neutral-700: #334155;
+  --ohc-neutral-800: #202B3F;
+  --ohc-neutral-900: #0F172A;
+  --ohc-neutral-950: #0A1020;
+
+  --ohc-danger-50: #FEF2F2;
+  --ohc-danger-100: #FEE2E2;
+  --ohc-danger-200: #FECACA;
+  --ohc-danger-300: #FCA5A5;
+  --ohc-danger-400: #F87171;
+  --ohc-danger-500: #EF4444;
+  --ohc-danger-600: #DC2626;
+  --ohc-danger-700: #B91C1C;
+  --ohc-danger-800: #991B1B;
+  --ohc-danger-900: #7F1D1D;
+  --ohc-danger-950: #450A0A;
+
+  --ohc-warning-50: #FFFBEB;
+  --ohc-warning-100: #FEF3C7;
+  --ohc-warning-200: #FDE68A;
+  --ohc-warning-300: #FCD34D;
+  --ohc-warning-400: #FBBF24;
+  --ohc-warning-500: #F59E0B;
+  --ohc-warning-600: #D97706;
+  --ohc-warning-700: #B45309;
+  --ohc-warning-800: #92400E;
+  --ohc-warning-900: #78350F;
+  --ohc-warning-950: #451A03;
+
+  --ohc-info-50: #EFF6FF;
+  --ohc-info-100: #DBEAFE;
+  --ohc-info-200: #BFDBFE;
+  --ohc-info-300: #93C5FD;
+  --ohc-info-400: #60A5FA;
+  --ohc-info-500: #3B82F6;
+  --ohc-info-600: #2563EB;
+  --ohc-info-700: #1D4ED8;
+  --ohc-info-800: #1E40AF;
+  --ohc-info-900: #1E3A8A;
+  --ohc-info-950: #172554;
+
+  --ohc-success-50: #F0FDF4;
+  --ohc-success-100: #DCFCE7;
+  --ohc-success-200: #BBF7D0;
+  --ohc-success-300: #86EFAC;
+  --ohc-success-400: #4ADE80;
+  --ohc-success-500: #22C55E;
+  --ohc-success-600: #16A34A;
+  --ohc-success-700: #15803D;
+  --ohc-success-800: #166534;
+  --ohc-success-900: #14532D;
+  --ohc-success-950: #052E16;
+
+  --ohc-base-white: #FFFFFF;
+  --ohc-base-black: #000000;
+
+  /* Radius */
+  --ohc-radius-none: 0; /* No rounding — dividers, full-bleed media, table cells */
+  --ohc-radius-xs: 2px; /* Hairline rounding — checkbox, progress bar, tooltip arrow */
+  --ohc-radius-sm: 4px; /* Small controls — tags, small buttons, dense table chips */
+  --ohc-radius-md: 8px; /* Default for interactive controls — buttons, inputs, selects */
+  --ohc-radius-lg: 12px; /* Containers — cards, popovers, dropdown menus */
+  --ohc-radius-xl: 16px; /* Large containers — dialogs, hero cards, doc sheets */
+  --ohc-radius-2xl: 24px; /* Mobile bottom sheets and full-screen modals (top corners) */
+  --ohc-radius-full: 9999px; /* Pill / circle — badges, avatars, toggles, chips */
+  --ohc-radius-button: var(--ohc-radius-md); /* Buttons (→ radius/md) */
+  --ohc-radius-input: var(--ohc-radius-md); /* Text fields, selects, search (→ radius/md) */
+  --ohc-radius-card: var(--ohc-radius-lg); /* Cards, list groups, dashboard widgets (→ radius/lg) */
+  --ohc-radius-badge: var(--ohc-radius-full); /* Badges, status pills, chips (→ radius/full) */
+  --ohc-radius-sheet: var(--ohc-radius-2xl); /* Bottom sheets / modals, top corners only (→ radius/2xl) */
+  --ohc-radius-avatar: var(--ohc-radius-full); /* Avatars, profile images (→ radius/full) */
+
+  /* Spacing (Mobile) */
+  --ohc-space-0: 0;
+  --ohc-space-2: 2px;
+  --ohc-space-4: 4px;
+  --ohc-space-6: 6px;
+  --ohc-space-8: 8px;
+  --ohc-space-10: 10px; /* 촘촘한 리스트 항목의 상하 여백 등 2px 반 단계가 필요한 곳 */
+  --ohc-space-12: 12px;
+  --ohc-space-16: 16px;
+  --ohc-space-20: 20px;
+  --ohc-space-24: 24px;
+  --ohc-space-32: 32px;
+  --ohc-space-40: 40px;
+  --ohc-space-48: 48px;
+  --ohc-space-64: 64px;
+  --ohc-space-80: 80px;
+  --ohc-space-96: 96px;
+
+  --ohc-layout-page-margin: var(--ohc-space-16); /* 화면 좌우 바깥 여백 (Mobile 16 / Desktop 32) */
+  --ohc-layout-gutter: var(--ohc-space-16); /* 그리드 컬럼·카드 사이 간격 (16 / 24) */
+  --ohc-layout-section-gap: var(--ohc-space-32); /* 페이지 내 큰 섹션 사이 간격 (32 / 64) */
+  --ohc-layout-stack-gap: var(--ohc-space-12); /* 섹션 안 요소들을 세로로 쌓을 때 기본 간격 (12 / 16) */
+  --ohc-layout-card-padding: var(--ohc-space-16); /* 카드·패널 안쪽 여백 (16 / 24) */
+
+  /* Typography (Mobile) */
+  --ohc-font-sans: var(--font-pretendard), "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --ohc-font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ohc-font-size-display-large: 36px;
+  --ohc-line-height-display-large: 46px;
+  --ohc-font-size-display-medium: 32px;
+  --ohc-line-height-display-medium: 42px;
+  --ohc-font-size-heading-1: 28px;
+  --ohc-line-height-heading-1: 38px;
+  --ohc-font-size-heading-2: 22px;
+  --ohc-line-height-heading-2: 30px;
+  --ohc-font-size-heading-3: 17px;
+  --ohc-line-height-heading-3: 24px;
+
+  /* Semantic (Light) */
+  --ohc-bg-canvas: var(--ohc-neutral-50);
+  --ohc-bg-surface: var(--ohc-base-white);
+  --ohc-bg-subtle: var(--ohc-neutral-100);
+  --ohc-bg-muted: var(--ohc-neutral-200);
+  --ohc-bg-inverse: var(--ohc-neutral-900);
+
+  --ohc-text-primary: var(--ohc-neutral-900);
+  --ohc-text-secondary: var(--ohc-neutral-600);
+  --ohc-text-disabled: var(--ohc-neutral-400);
+  --ohc-text-inverse: var(--ohc-base-white);
+
+  --ohc-border-default: var(--ohc-neutral-200);
+  --ohc-border-strong: var(--ohc-neutral-300);
+  --ohc-border-focus: var(--ohc-primary-500);
+
+  --ohc-primary-solid: var(--ohc-primary-500);
+  --ohc-primary-solid-hover: var(--ohc-primary-600);
+  --ohc-primary-on-solid: var(--ohc-base-white);
+  --ohc-primary-subtle: var(--ohc-primary-50);
+  --ohc-primary-subtle-hover: var(--ohc-primary-100);
+  --ohc-primary-text: var(--ohc-primary-600);
+  --ohc-primary-border: var(--ohc-primary-200);
+
+  --ohc-secondary-solid: var(--ohc-secondary-500);
+  --ohc-secondary-solid-hover: var(--ohc-secondary-600);
+  --ohc-secondary-on-solid: var(--ohc-base-white);
+  --ohc-secondary-subtle: var(--ohc-secondary-50);
+  --ohc-secondary-subtle-hover: var(--ohc-secondary-100);
+  --ohc-secondary-text: var(--ohc-secondary-600);
+  --ohc-secondary-border: var(--ohc-secondary-200);
+
+  --ohc-danger-solid: var(--ohc-danger-600);
+  --ohc-danger-solid-hover: var(--ohc-danger-700);
+  --ohc-danger-on-solid: var(--ohc-base-white);
+  --ohc-danger-subtle: var(--ohc-danger-50);
+  --ohc-danger-subtle-hover: var(--ohc-danger-100);
+  --ohc-danger-text: var(--ohc-danger-700);
+  --ohc-danger-border: var(--ohc-danger-200);
+
+  --ohc-warning-solid: var(--ohc-warning-700);
+  --ohc-warning-solid-hover: var(--ohc-warning-800);
+  --ohc-warning-on-solid: var(--ohc-base-white);
+  --ohc-warning-subtle: var(--ohc-warning-50);
+  --ohc-warning-subtle-hover: var(--ohc-warning-100);
+  --ohc-warning-text: var(--ohc-warning-700);
+  --ohc-warning-border: var(--ohc-warning-200);
+
+  --ohc-info-solid: var(--ohc-info-600);
+  --ohc-info-solid-hover: var(--ohc-info-700);
+  --ohc-info-on-solid: var(--ohc-base-white);
+  --ohc-info-subtle: var(--ohc-info-50);
+  --ohc-info-subtle-hover: var(--ohc-info-100);
+  --ohc-info-text: var(--ohc-info-700);
+  --ohc-info-border: var(--ohc-info-200);
+
+  --ohc-success-solid: var(--ohc-success-700);
+  --ohc-success-solid-hover: var(--ohc-success-800);
+  --ohc-success-on-solid: var(--ohc-base-white);
+  --ohc-success-subtle: var(--ohc-success-50);
+  --ohc-success-subtle-hover: var(--ohc-success-100);
+  --ohc-success-text: var(--ohc-success-700);
+  --ohc-success-border: var(--ohc-success-200);
+
+  --ohc-shadow-ambient: #0F172A0A;
+  --ohc-shadow-key-1: #0F172A0F;
+  --ohc-shadow-key-2: #0F172A14;
+  --ohc-shadow-key-3: #0F172A1F;
+
+  --ohc-bg-overlay: #0F172A80;
+
+  /* Elevation (effect styles) */
+  --ohc-elevation-1: 0 1px 3px 0 var(--ohc-shadow-key-1), 0 1px 2px 0 var(--ohc-shadow-ambient);
+  --ohc-elevation-2: 0 6px 16px -2px var(--ohc-shadow-key-2), 0 2px 4px 0 var(--ohc-shadow-ambient);
+  --ohc-elevation-3: 0 16px 40px -6px var(--ohc-shadow-key-3), 0 4px 10px 0 var(--ohc-shadow-ambient);
+  --ohc-focus-ring: 0 0 0 3px var(--ohc-border-focus);
+}
+
+/*
+ * OHC 원본의 Desktop 값(@media (min-width: 48rem))은 뺐다.
+ * 이 앱은 데스크톱 창에서도 max-w-app(768px) 셸 안에 모바일/태블릿 레이아웃만 그리므로,
+ * 뷰포트 기준으로 값을 바꾸면 셸 폭과 맞지 않는다. 언제나 Mobile 값을 쓴다.
+ */
+
+.dark {
+  /* Semantic (Dark) */
+  --ohc-bg-canvas: var(--ohc-neutral-950);
+  --ohc-bg-surface: var(--ohc-neutral-900);
+  --ohc-bg-subtle: var(--ohc-neutral-800);
+  --ohc-bg-muted: var(--ohc-neutral-700);
+  --ohc-bg-inverse: var(--ohc-neutral-50);
+
+  --ohc-text-primary: var(--ohc-neutral-50);
+  --ohc-text-secondary: var(--ohc-neutral-400);
+  --ohc-text-disabled: var(--ohc-neutral-600);
+  --ohc-text-inverse: var(--ohc-neutral-900);
+
+  --ohc-border-default: var(--ohc-neutral-800);
+  --ohc-border-strong: var(--ohc-neutral-700);
+  --ohc-border-focus: var(--ohc-primary-400);
+
+  --ohc-primary-solid: var(--ohc-primary-400);
+  --ohc-primary-solid-hover: var(--ohc-primary-300);
+  --ohc-primary-on-solid: var(--ohc-primary-950);
+  --ohc-primary-subtle: var(--ohc-primary-950);
+  --ohc-primary-subtle-hover: var(--ohc-primary-900);
+  --ohc-primary-text: var(--ohc-primary-300);
+  --ohc-primary-border: var(--ohc-primary-800);
+
+  --ohc-secondary-solid: var(--ohc-secondary-400);
+  --ohc-secondary-solid-hover: var(--ohc-secondary-300);
+  --ohc-secondary-on-solid: var(--ohc-secondary-950);
+  --ohc-secondary-subtle: var(--ohc-secondary-950);
+  --ohc-secondary-subtle-hover: var(--ohc-secondary-900);
+  --ohc-secondary-text: var(--ohc-secondary-300);
+  --ohc-secondary-border: var(--ohc-secondary-800);
+
+  --ohc-danger-solid: var(--ohc-danger-400);
+  --ohc-danger-solid-hover: var(--ohc-danger-300);
+  --ohc-danger-on-solid: var(--ohc-danger-950);
+  --ohc-danger-subtle: var(--ohc-danger-950);
+  --ohc-danger-subtle-hover: var(--ohc-danger-900);
+  --ohc-danger-text: var(--ohc-danger-300);
+  --ohc-danger-border: var(--ohc-danger-800);
+
+  --ohc-warning-solid: var(--ohc-warning-400);
+  --ohc-warning-solid-hover: var(--ohc-warning-300);
+  --ohc-warning-on-solid: var(--ohc-warning-950);
+  --ohc-warning-subtle: var(--ohc-warning-950);
+  --ohc-warning-subtle-hover: var(--ohc-warning-900);
+  --ohc-warning-text: var(--ohc-warning-300);
+  --ohc-warning-border: var(--ohc-warning-800);
+
+  --ohc-info-solid: var(--ohc-info-400);
+  --ohc-info-solid-hover: var(--ohc-info-300);
+  --ohc-info-on-solid: var(--ohc-info-950);
+  --ohc-info-subtle: var(--ohc-info-950);
+  --ohc-info-subtle-hover: var(--ohc-info-900);
+  --ohc-info-text: var(--ohc-info-300);
+  --ohc-info-border: var(--ohc-info-800);
+
+  --ohc-success-solid: var(--ohc-success-400);
+  --ohc-success-solid-hover: var(--ohc-success-300);
+  --ohc-success-on-solid: var(--ohc-success-950);
+  --ohc-success-subtle: var(--ohc-success-950);
+  --ohc-success-subtle-hover: var(--ohc-success-900);
+  --ohc-success-text: var(--ohc-success-300);
+  --ohc-success-border: var(--ohc-success-800);
+
+  --ohc-shadow-ambient: #0000004D;
+  --ohc-shadow-key-1: #00000080;
+  --ohc-shadow-key-2: #00000099;
+  --ohc-shadow-key-3: #000000B3;
+
+  --ohc-bg-overlay: #000000A6;
+}
+
+
+:root {
+  /* Text styles */
+  --ohc-type-display-large-family: var(--ohc-font-sans);
+  --ohc-type-display-large-size: var(--ohc-font-size-display-large);
+  --ohc-type-display-large-line-height: var(--ohc-line-height-display-large);
+  --ohc-type-display-large-weight: 700;
+  --ohc-type-display-large-tracking: -0.02em;
+
+  --ohc-type-display-medium-family: var(--ohc-font-sans);
+  --ohc-type-display-medium-size: var(--ohc-font-size-display-medium);
+  --ohc-type-display-medium-line-height: var(--ohc-line-height-display-medium);
+  --ohc-type-display-medium-weight: 700;
+  --ohc-type-display-medium-tracking: -0.02em;
+
+  --ohc-type-heading-1-family: var(--ohc-font-sans);
+  --ohc-type-heading-1-size: var(--ohc-font-size-heading-1);
+  --ohc-type-heading-1-line-height: var(--ohc-line-height-heading-1);
+  --ohc-type-heading-1-weight: 700;
+  --ohc-type-heading-1-tracking: -0.015em;
+
+  --ohc-type-heading-2-family: var(--ohc-font-sans);
+  --ohc-type-heading-2-size: var(--ohc-font-size-heading-2);
+  --ohc-type-heading-2-line-height: var(--ohc-line-height-heading-2);
+  --ohc-type-heading-2-weight: 700;
+  --ohc-type-heading-2-tracking: -0.01em;
+
+  --ohc-type-heading-3-family: var(--ohc-font-sans);
+  --ohc-type-heading-3-size: var(--ohc-font-size-heading-3);
+  --ohc-type-heading-3-line-height: var(--ohc-line-height-heading-3);
+  --ohc-type-heading-3-weight: 600;
+  --ohc-type-heading-3-tracking: -0.005em;
+
+  --ohc-type-title-family: var(--ohc-font-sans);
+  --ohc-type-title-size: 15px;
+  --ohc-type-title-line-height: 22px;
+  --ohc-type-title-weight: 600;
+  --ohc-type-title-tracking: 0;
+
+  --ohc-type-body-large-family: var(--ohc-font-sans);
+  --ohc-type-body-large-size: 17px;
+  --ohc-type-body-large-line-height: 28px;
+  --ohc-type-body-large-weight: 400;
+  --ohc-type-body-large-tracking: 0;
+
+  --ohc-type-body-medium-family: var(--ohc-font-sans);
+  --ohc-type-body-medium-size: 15px;
+  --ohc-type-body-medium-line-height: 24px;
+  --ohc-type-body-medium-weight: 400;
+  --ohc-type-body-medium-tracking: 0;
+
+  --ohc-type-body-small-family: var(--ohc-font-sans);
+  --ohc-type-body-small-size: 13px;
+  --ohc-type-body-small-line-height: 20px;
+  --ohc-type-body-small-weight: 400;
+  --ohc-type-body-small-tracking: 0;
+
+  --ohc-type-label-large-family: var(--ohc-font-sans);
+  --ohc-type-label-large-size: 15px;
+  --ohc-type-label-large-line-height: 20px;
+  --ohc-type-label-large-weight: 600;
+  --ohc-type-label-large-tracking: 0;
+
+  --ohc-type-label-medium-family: var(--ohc-font-sans);
+  --ohc-type-label-medium-size: 13px;
+  --ohc-type-label-medium-line-height: 18px;
+  --ohc-type-label-medium-weight: 500;
+  --ohc-type-label-medium-tracking: 0;
+
+  --ohc-type-label-small-family: var(--ohc-font-sans);
+  --ohc-type-label-small-size: 11px;
+  --ohc-type-label-small-line-height: 14px;
+  --ohc-type-label-small-weight: 500;
+  --ohc-type-label-small-tracking: 0;
+
+  --ohc-type-caption-family: var(--ohc-font-sans);
+  --ohc-type-caption-size: 12px;
+  --ohc-type-caption-line-height: 16px;
+  --ohc-type-caption-weight: 400;
+  --ohc-type-caption-tracking: 0;
+
+  --ohc-type-overline-family: var(--ohc-font-sans);
+  --ohc-type-overline-size: 11px;
+  --ohc-type-overline-line-height: 14px;
+  --ohc-type-overline-weight: 600;
+  --ohc-type-overline-tracking: 0.02em;
+
+  --ohc-type-numeric-large-family: var(--ohc-font-sans);
+  --ohc-type-numeric-large-size: 28px;
+  --ohc-type-numeric-large-line-height: 36px;
+  --ohc-type-numeric-large-weight: 700;
+  --ohc-type-numeric-large-tracking: -0.01em;
+
+  --ohc-type-numeric-medium-family: var(--ohc-font-sans);
+  --ohc-type-numeric-medium-size: 15px;
+  --ohc-type-numeric-medium-line-height: 20px;
+  --ohc-type-numeric-medium-weight: 500;
+  --ohc-type-numeric-medium-tracking: 0;
+
+  --ohc-type-code-medium-family: var(--ohc-font-mono);
+  --ohc-type-code-medium-size: 14px;
+  --ohc-type-code-medium-line-height: 22px;
+  --ohc-type-code-medium-weight: 400;
+  --ohc-type-code-medium-tracking: 0;
+
+  --ohc-type-code-small-family: var(--ohc-font-mono);
+  --ohc-type-code-small-size: 12px;
+  --ohc-type-code-small-line-height: 18px;
+  --ohc-type-code-small-weight: 400;
+  --ohc-type-code-small-tracking: 0;
+
+  --ohc-type-numeric-small-family: var(--ohc-font-sans);
+  --ohc-type-numeric-small-size: 13px;
+  --ohc-type-numeric-small-line-height: 20px;
+  --ohc-type-numeric-small-weight: 500;
+  --ohc-type-numeric-small-tracking: 0;
+}

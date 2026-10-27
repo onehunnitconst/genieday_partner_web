@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- src/components/logo.tsx의 LOGO_SHAPES와 같은 모양 (물방울 머리 + 뒤집은 초승달 어깨 + 좁힌 반원 다리 두 개) -->
+  <rect width="64" height="64" rx="16" fill="#864AD2"/>
+  <path d="M18.5 53A6 11.76 0 0 1 30.5 53Z" fill="#EFE7FF"/>
+  <path d="M33.5 53A6 11.76 0 0 1 45.5 53Z" fill="#EFE7FF"/>
+  <path d="M11 44.7A22.94 22.94 0 0 1 53 44.7A33.84 33.84 0 0 0 11 44.7Z" fill="#EFE7FF"/>
+  <path d="M32 11C32 11 27.5 19 27.5 23.5a4.5 4.5 0 0 0 9 0C36.5 19 32 11 32 11Z" fill="#FFFFFF"/>
+</svg>

@@ -1,0 +1,366 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "../src/styles/ohc-tokens.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * 앱 이름(지니데이) 글꼴: 느림보고딕 (낭만폰트작업실, https://noonnu.cc/font_page/1135)
+ * 웹 임베딩·BI 사용은 허용되지만 수정·재배포는 금지라서, 파일을 저장소에 두지 않고 눈누 CDN에서 그대로 불러온다.
+ * Regular 한 굵기뿐이므로 font-brand와 함께 font-normal을 써서 가짜 굵게를 막는다.
+ */
+@font-face {
+  font-family: "SlowGothic";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/neurimboGothicRegular.woff2") format("woff2");
+  font-weight: normal;
+  font-display: swap;
+}
+
+/*
+ * Tailwind theme — OHC 디자인 시스템 토큰만 쓴다 (src/styles/ohc-tokens.css).
+ * 기본 Tailwind 팔레트는 지워서 모든 색이 디자인 시스템에서 오게 한다.
+ *
+ * 앱 폭 기준 (컨테이너 쿼리). 데스크톱에서도 모바일/태블릿 레이아웃만 쓴다.
+ * - 모바일: 기본 스타일 (< 600px)
+ * - 태블릿: @tablet: (>= 600px)
+ * - 앱 최대 폭: max-w-app (768px)
+ */
+@theme {
+  --color-*: initial;
+  --container-tablet: 37.5rem;
+  --container-app: 48rem;
+}
+
+@theme inline {
+  /* Fonts */
+  --font-sans: var(--ohc-font-sans);
+  --font-mono: var(--ohc-font-mono);
+  --font-heading: var(--ohc-font-sans);
+  --font-brand: "SlowGothic", var(--ohc-font-sans);
+
+  /* Primitive colors: bg-primary-500, text-neutral-600 ... */
+  --color-white: var(--ohc-base-white);
+  --color-black: var(--ohc-base-black);
+  --color-primary-50: var(--ohc-primary-50);
+  --color-primary-100: var(--ohc-primary-100);
+  --color-primary-200: var(--ohc-primary-200);
+  --color-primary-300: var(--ohc-primary-300);
+  --color-primary-400: var(--ohc-primary-400);
+  --color-primary-500: var(--ohc-primary-500);
+  --color-primary-600: var(--ohc-primary-600);
+  --color-primary-700: var(--ohc-primary-700);
+  --color-primary-800: var(--ohc-primary-800);
+  --color-primary-900: var(--ohc-primary-900);
+  --color-primary-950: var(--ohc-primary-950);
+  --color-secondary-50: var(--ohc-secondary-50);
+  --color-secondary-100: var(--ohc-secondary-100);
+  --color-secondary-200: var(--ohc-secondary-200);
+  --color-secondary-300: var(--ohc-secondary-300);
+  --color-secondary-400: var(--ohc-secondary-400);
+  --color-secondary-500: var(--ohc-secondary-500);
+  --color-secondary-600: var(--ohc-secondary-600);
+  --color-secondary-700: var(--ohc-secondary-700);
+  --color-secondary-800: var(--ohc-secondary-800);
+  --color-secondary-900: var(--ohc-secondary-900);
+  --color-secondary-950: var(--ohc-secondary-950);
+  --color-neutral-50: var(--ohc-neutral-50);
+  --color-neutral-100: var(--ohc-neutral-100);
+  --color-neutral-200: var(--ohc-neutral-200);
+  --color-neutral-300: var(--ohc-neutral-300);
+  --color-neutral-400: var(--ohc-neutral-400);
+  --color-neutral-500: var(--ohc-neutral-500);
+  --color-neutral-600: var(--ohc-neutral-600);
+  --color-neutral-700: var(--ohc-neutral-700);
+  --color-neutral-800: var(--ohc-neutral-800);
+  --color-neutral-900: var(--ohc-neutral-900);
+  --color-neutral-950: var(--ohc-neutral-950);
+  --color-danger-50: var(--ohc-danger-50);
+  --color-danger-100: var(--ohc-danger-100);
+  --color-danger-200: var(--ohc-danger-200);
+  --color-danger-300: var(--ohc-danger-300);
+  --color-danger-400: var(--ohc-danger-400);
+  --color-danger-500: var(--ohc-danger-500);
+  --color-danger-600: var(--ohc-danger-600);
+  --color-danger-700: var(--ohc-danger-700);
+  --color-danger-800: var(--ohc-danger-800);
+  --color-danger-900: var(--ohc-danger-900);
+  --color-danger-950: var(--ohc-danger-950);
+  --color-warning-50: var(--ohc-warning-50);
+  --color-warning-100: var(--ohc-warning-100);
+  --color-warning-200: var(--ohc-warning-200);
+  --color-warning-300: var(--ohc-warning-300);
+  --color-warning-400: var(--ohc-warning-400);
+  --color-warning-500: var(--ohc-warning-500);
+  --color-warning-600: var(--ohc-warning-600);
+  --color-warning-700: var(--ohc-warning-700);
+  --color-warning-800: var(--ohc-warning-800);
+  --color-warning-900: var(--ohc-warning-900);
+  --color-warning-950: var(--ohc-warning-950);
+  --color-info-50: var(--ohc-info-50);
+  --color-info-100: var(--ohc-info-100);
+  --color-info-200: var(--ohc-info-200);
+  --color-info-300: var(--ohc-info-300);
+  --color-info-400: var(--ohc-info-400);
+  --color-info-500: var(--ohc-info-500);
+  --color-info-600: var(--ohc-info-600);
+  --color-info-700: var(--ohc-info-700);
+  --color-info-800: var(--ohc-info-800);
+  --color-info-900: var(--ohc-info-900);
+  --color-info-950: var(--ohc-info-950);
+  --color-success-50: var(--ohc-success-50);
+  --color-success-100: var(--ohc-success-100);
+  --color-success-200: var(--ohc-success-200);
+  --color-success-300: var(--ohc-success-300);
+  --color-success-400: var(--ohc-success-400);
+  --color-success-500: var(--ohc-success-500);
+  --color-success-600: var(--ohc-success-600);
+  --color-success-700: var(--ohc-success-700);
+  --color-success-800: var(--ohc-success-800);
+  --color-success-900: var(--ohc-success-900);
+  --color-success-950: var(--ohc-success-950);
+
+  /* Semantic colors — same path as Figma: bg/canvas → bg-bg-canvas, text/secondary → text-text-secondary */
+  --color-bg-canvas: var(--ohc-bg-canvas);
+  --color-bg-surface: var(--ohc-bg-surface);
+  --color-bg-subtle: var(--ohc-bg-subtle);
+  --color-bg-muted: var(--ohc-bg-muted);
+  --color-bg-inverse: var(--ohc-bg-inverse);
+  --color-bg-overlay: var(--ohc-bg-overlay);
+  --color-text-primary: var(--ohc-text-primary);
+  --color-text-secondary: var(--ohc-text-secondary);
+  --color-text-disabled: var(--ohc-text-disabled);
+  --color-text-inverse: var(--ohc-text-inverse);
+  --color-border-default: var(--ohc-border-default);
+  --color-border-strong: var(--ohc-border-strong);
+  --color-border-focus: var(--ohc-border-focus);
+  --color-primary-solid: var(--ohc-primary-solid);
+  --color-primary-solid-hover: var(--ohc-primary-solid-hover);
+  --color-primary-on-solid: var(--ohc-primary-on-solid);
+  --color-primary-subtle: var(--ohc-primary-subtle);
+  --color-primary-subtle-hover: var(--ohc-primary-subtle-hover);
+  --color-primary-text: var(--ohc-primary-text);
+  --color-primary-border: var(--ohc-primary-border);
+  --color-secondary-solid: var(--ohc-secondary-solid);
+  --color-secondary-solid-hover: var(--ohc-secondary-solid-hover);
+  --color-secondary-on-solid: var(--ohc-secondary-on-solid);
+  --color-secondary-subtle: var(--ohc-secondary-subtle);
+  --color-secondary-subtle-hover: var(--ohc-secondary-subtle-hover);
+  --color-secondary-text: var(--ohc-secondary-text);
+  --color-secondary-border: var(--ohc-secondary-border);
+  --color-danger-solid: var(--ohc-danger-solid);
+  --color-danger-solid-hover: var(--ohc-danger-solid-hover);
+  --color-danger-on-solid: var(--ohc-danger-on-solid);
+  --color-danger-subtle: var(--ohc-danger-subtle);
+  --color-danger-subtle-hover: var(--ohc-danger-subtle-hover);
+  --color-danger-text: var(--ohc-danger-text);
+  --color-danger-border: var(--ohc-danger-border);
+  --color-warning-solid: var(--ohc-warning-solid);
+  --color-warning-solid-hover: var(--ohc-warning-solid-hover);
+  --color-warning-on-solid: var(--ohc-warning-on-solid);
+  --color-warning-subtle: var(--ohc-warning-subtle);
+  --color-warning-subtle-hover: var(--ohc-warning-subtle-hover);
+  --color-warning-text: var(--ohc-warning-text);
+  --color-warning-border: var(--ohc-warning-border);
+  --color-info-solid: var(--ohc-info-solid);
+  --color-info-solid-hover: var(--ohc-info-solid-hover);
+  --color-info-on-solid: var(--ohc-info-on-solid);
+  --color-info-subtle: var(--ohc-info-subtle);
+  --color-info-subtle-hover: var(--ohc-info-subtle-hover);
+  --color-info-text: var(--ohc-info-text);
+  --color-info-border: var(--ohc-info-border);
+  --color-success-solid: var(--ohc-success-solid);
+  --color-success-solid-hover: var(--ohc-success-solid-hover);
+  --color-success-on-solid: var(--ohc-success-on-solid);
+  --color-success-subtle: var(--ohc-success-subtle);
+  --color-success-subtle-hover: var(--ohc-success-subtle-hover);
+  --color-success-text: var(--ohc-success-text);
+  --color-success-border: var(--ohc-success-border);
+
+  /* 앱 전용: 생리(period)는 Primary, 가임기(fertile)는 Secondary */
+  --color-period: var(--ohc-primary-solid);
+  --color-period-foreground: var(--ohc-primary-on-solid);
+  --color-period-soft: var(--ohc-primary-subtle);
+  --color-fertile: var(--ohc-secondary-solid);
+  --color-fertile-foreground: var(--ohc-secondary-on-solid);
+  --color-fertile-soft: var(--ohc-secondary-subtle);
+
+  /* shadcn/ui aliases (values set in :root below) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Radius: scale + role names (rounded-button, rounded-card ...) */
+  --radius-xs: var(--ohc-radius-xs);
+  --radius-sm: var(--ohc-radius-sm);
+  --radius-md: var(--ohc-radius-md);
+  --radius-lg: var(--ohc-radius-lg);
+  --radius-xl: var(--ohc-radius-xl);
+  --radius-2xl: var(--ohc-radius-2xl);
+  --radius-button: var(--ohc-radius-button);
+  --radius-input: var(--ohc-radius-input);
+  --radius-card: var(--ohc-radius-card);
+  --radius-badge: var(--ohc-radius-badge);
+  --radius-sheet: var(--ohc-radius-sheet);
+  --radius-avatar: var(--ohc-radius-avatar);
+
+  /* Layout spacing: px-page-margin, gap-gutter, gap-section-gap, gap-stack-gap, p-card-padding */
+  --spacing-page-margin: var(--ohc-layout-page-margin);
+  --spacing-gutter: var(--ohc-layout-gutter);
+  --spacing-section-gap: var(--ohc-layout-section-gap);
+  --spacing-stack-gap: var(--ohc-layout-stack-gap);
+  --spacing-card-padding: var(--ohc-layout-card-padding);
+
+  /* Elevation — shadcn's shadow-sm/md/lg follow Elevation/1·2·3 */
+  --shadow-sm: var(--ohc-elevation-1);
+  --shadow-md: var(--ohc-elevation-2);
+  --shadow-lg: var(--ohc-elevation-3);
+  --shadow-elevation-1: var(--ohc-elevation-1);
+  --shadow-elevation-2: var(--ohc-elevation-2);
+  --shadow-elevation-3: var(--ohc-elevation-3);
+  --shadow-focus: var(--ohc-focus-ring);
+
+  /* Text styles: text-display-large, text-heading-1, text-body-medium ... */
+  --text-display-large: var(--ohc-type-display-large-size);
+  --text-display-large--line-height: var(--ohc-type-display-large-line-height);
+  --text-display-large--font-weight: var(--ohc-type-display-large-weight);
+  --text-display-large--letter-spacing: var(--ohc-type-display-large-tracking);
+  --text-display-medium: var(--ohc-type-display-medium-size);
+  --text-display-medium--line-height: var(--ohc-type-display-medium-line-height);
+  --text-display-medium--font-weight: var(--ohc-type-display-medium-weight);
+  --text-display-medium--letter-spacing: var(--ohc-type-display-medium-tracking);
+  --text-heading-1: var(--ohc-type-heading-1-size);
+  --text-heading-1--line-height: var(--ohc-type-heading-1-line-height);
+  --text-heading-1--font-weight: var(--ohc-type-heading-1-weight);
+  --text-heading-1--letter-spacing: var(--ohc-type-heading-1-tracking);
+  --text-heading-2: var(--ohc-type-heading-2-size);
+  --text-heading-2--line-height: var(--ohc-type-heading-2-line-height);
+  --text-heading-2--font-weight: var(--ohc-type-heading-2-weight);
+  --text-heading-2--letter-spacing: var(--ohc-type-heading-2-tracking);
+  --text-heading-3: var(--ohc-type-heading-3-size);
+  --text-heading-3--line-height: var(--ohc-type-heading-3-line-height);
+  --text-heading-3--font-weight: var(--ohc-type-heading-3-weight);
+  --text-heading-3--letter-spacing: var(--ohc-type-heading-3-tracking);
+  --text-title: var(--ohc-type-title-size);
+  --text-title--line-height: var(--ohc-type-title-line-height);
+  --text-title--font-weight: var(--ohc-type-title-weight);
+  --text-body-large: var(--ohc-type-body-large-size);
+  --text-body-large--line-height: var(--ohc-type-body-large-line-height);
+  --text-body-large--font-weight: var(--ohc-type-body-large-weight);
+  --text-body-medium: var(--ohc-type-body-medium-size);
+  --text-body-medium--line-height: var(--ohc-type-body-medium-line-height);
+  --text-body-medium--font-weight: var(--ohc-type-body-medium-weight);
+  --text-body-small: var(--ohc-type-body-small-size);
+  --text-body-small--line-height: var(--ohc-type-body-small-line-height);
+  --text-body-small--font-weight: var(--ohc-type-body-small-weight);
+  --text-label-large: var(--ohc-type-label-large-size);
+  --text-label-large--line-height: var(--ohc-type-label-large-line-height);
+  --text-label-large--font-weight: var(--ohc-type-label-large-weight);
+  --text-label-medium: var(--ohc-type-label-medium-size);
+  --text-label-medium--line-height: var(--ohc-type-label-medium-line-height);
+  --text-label-medium--font-weight: var(--ohc-type-label-medium-weight);
+  --text-label-small: var(--ohc-type-label-small-size);
+  --text-label-small--line-height: var(--ohc-type-label-small-line-height);
+  --text-label-small--font-weight: var(--ohc-type-label-small-weight);
+  --text-caption: var(--ohc-type-caption-size);
+  --text-caption--line-height: var(--ohc-type-caption-line-height);
+  --text-caption--font-weight: var(--ohc-type-caption-weight);
+  --text-overline: var(--ohc-type-overline-size);
+  --text-overline--line-height: var(--ohc-type-overline-line-height);
+  --text-overline--font-weight: var(--ohc-type-overline-weight);
+  --text-overline--letter-spacing: var(--ohc-type-overline-tracking);
+  --text-numeric-large: var(--ohc-type-numeric-large-size);
+  --text-numeric-large--line-height: var(--ohc-type-numeric-large-line-height);
+  --text-numeric-large--font-weight: var(--ohc-type-numeric-large-weight);
+  --text-numeric-large--letter-spacing: var(--ohc-type-numeric-large-tracking);
+  --text-numeric-medium: var(--ohc-type-numeric-medium-size);
+  --text-numeric-medium--line-height: var(--ohc-type-numeric-medium-line-height);
+  --text-numeric-medium--font-weight: var(--ohc-type-numeric-medium-weight);
+  --text-numeric-small: var(--ohc-type-numeric-small-size);
+  --text-numeric-small--line-height: var(--ohc-type-numeric-small-line-height);
+  --text-numeric-small--font-weight: var(--ohc-type-numeric-small-weight);
+  --text-code-medium: var(--ohc-type-code-medium-size);
+  --text-code-medium--line-height: var(--ohc-type-code-medium-line-height);
+  --text-code-small: var(--ohc-type-code-small-size);
+  --text-code-small--line-height: var(--ohc-type-code-small-line-height);
+}
+
+/*
+ * shadcn/ui variables → OHC semantic tokens.
+ * Light/Dark switching happens inside ohc-tokens.css (.dark), so no .dark block is needed here.
+ * Note: shadcn "secondary" is a low-emphasis neutral; the OHC orange brand is bg-secondary-solid.
+ */
+:root {
+  --background: var(--ohc-bg-canvas);
+  --foreground: var(--ohc-text-primary);
+  --card: var(--ohc-bg-surface);
+  --card-foreground: var(--ohc-text-primary);
+  --popover: var(--ohc-bg-surface);
+  --popover-foreground: var(--ohc-text-primary);
+  --primary: var(--ohc-primary-solid);
+  --primary-foreground: var(--ohc-primary-on-solid);
+  --secondary: var(--ohc-bg-subtle);
+  --secondary-foreground: var(--ohc-text-primary);
+  --muted: var(--ohc-bg-subtle);
+  --muted-foreground: var(--ohc-text-secondary);
+  --accent: var(--ohc-bg-subtle);
+  --accent-foreground: var(--ohc-text-primary);
+  --destructive: var(--ohc-danger-solid);
+  --border: var(--ohc-border-default);
+  --input: var(--ohc-border-strong);
+  --ring: var(--ohc-border-focus);
+  --chart-1: var(--ohc-primary-500);
+  --chart-2: var(--ohc-secondary-500);
+  --chart-3: var(--ohc-info-500);
+  --chart-4: var(--ohc-warning-500);
+  --chart-5: var(--ohc-neutral-400);
+  --radius: var(--ohc-radius-lg);
+  --sidebar: var(--ohc-bg-surface);
+  --sidebar-foreground: var(--ohc-text-primary);
+  --sidebar-primary: var(--ohc-primary-solid);
+  --sidebar-primary-foreground: var(--ohc-primary-on-solid);
+  --sidebar-accent: var(--ohc-bg-subtle);
+  --sidebar-accent-foreground: var(--ohc-text-primary);
+  --sidebar-border: var(--ohc-border-default);
+  --sidebar-ring: var(--ohc-border-focus);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground text-body-medium;
+  }
+}

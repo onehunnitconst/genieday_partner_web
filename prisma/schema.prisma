@@ -1,0 +1,143 @@
+// 연결 URL은 prisma.config.ts(CLI)와 src/server/db.ts(런타임)에서 설정한다
+// period_check/prisma/schema.prisma를 그대로 복사한 파일이다. 원본과 마이그레이션은 period_check 쪽에 있고,
+// 이 앱은 prisma generate로 클라이언트만 만든다 (스키마를 바꾸려면 원본을 고친 뒤 여기로 복사한다)
+// ddu_be와 같은 Supabase DB를 쓰되, 테이블은 period_check 스키마에 두고 이름에 p_ 접두사를 붙여 구분한다
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── 인증 (Better Auth가 읽고 쓴다. 필드 구성은 Better Auth 코어 스키마를 따른다) ──
+
+/// 사용자 (Google 계정으로 가입)
+model User {
+  id            String   @id
+  /// Google 계정 이름
+  name          String
+  /// 앱에서 쓰는 이름: 한글·영문·숫자 2–12자. 가입 직후에는 비어 있고, 정해야 기록 화면으로 넘어간다
+  /// 형식 검사는 마이그레이션 SQL의 CHECK 제약과 src/utils/nickname.ts가 함께 담당한다
+  nickname      String?  @db.VarChar(12)
+  email         String   @unique
+  emailVerified Boolean  @default(false) @map("email_verified")
+  image         String?
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  sessions      Session[]
+  accounts      Account[]
+  periodRecords PeriodRecord[]
+  partnerInvite PartnerInvite?
+  /// 내 주기를 보는 파트너 (내가 주기를 공유한 쪽)
+  partner       Partner?       @relation("PartnerOwner")
+  /// 내가 파트너로서 보고 있는 연결 (파트너 앱에서 코드를 입력한 쪽)
+  partnerOf     Partner?       @relation("PartnerMember")
+
+  @@map("p_users")
+}
+
+/// 로그인 세션 (쿠키에는 token만 담긴다)
+model Session {
+  id        String   @id
+  userId    String   @map("user_id")
+  token     String   @unique
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(3)
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("p_sessions")
+}
+
+/// 외부 로그인 계정 연결 (providerId = "google")
+model Account {
+  id                    String    @id
+  userId                String    @map("user_id")
+  accountId             String    @map("account_id")
+  providerId            String    @map("provider_id")
+  accessToken           String?   @map("access_token")
+  refreshToken          String?   @map("refresh_token")
+  idToken               String?   @map("id_token")
+  accessTokenExpiresAt  DateTime? @map("access_token_expires_at") @db.Timestamptz(3)
+  refreshTokenExpiresAt DateTime? @map("refresh_token_expires_at") @db.Timestamptz(3)
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt             DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("p_accounts")
+}
+
+/// OAuth state 등 일회용 검증 값
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime @map("expires_at") @db.Timestamptz(3)
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  @@index([identifier])
+  @@map("p_verifications")
+}
+
+// ── 생리 기록 ──
+
+/// 생리 기록 한 건 (시작일~종료일, 양 끝 포함)
+model PeriodRecord {
+  /// 클라이언트가 만든 UUID (기기에 저장돼 있던 기록을 옮길 때 같은 ID를 유지한다)
+  id        String   @id @db.Uuid
+  userId    String   @map("user_id")
+  startDate DateTime @map("start_date") @db.Date
+  endDate   DateTime @map("end_date") @db.Date
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, startDate])
+  @@map("p_period_records")
+}
+
+// ── 파트너 연동 ──
+
+/// 파트너 연결 코드. 사용자당 하나만 있고, 새로 만들면 이전 코드는 사라진다 (파트너가 쓰면 지워진다)
+model PartnerInvite {
+  userId    String   @id @map("user_id")
+  /// 8자리 대문자·숫자 (헷갈리는 0·O·1·I·L은 쓰지 않는다)
+  code      String   @unique @db.Char(8)
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("p_partner_invites")
+}
+
+/// 연결된 파트너 (사용자당 한 명). 파트너도 Google로 가입한 사용자(p_users)이며, 한 번에 한 사람만 볼 수 있다.
+/// 어느 쪽에서든 해제하면 행이 지워진다 (파트너의 계정은 남는다)
+model Partner {
+  id            String   @id @default(uuid()) @db.Uuid
+  /// 주기를 공유한 사용자
+  userId        String   @unique @map("user_id")
+  /// 주기를 보는 파트너 (파트너 앱에 로그인한 사용자). 자기 자신과는 연결할 수 없다 (CHECK 제약)
+  partnerUserId String   @unique @map("partner_user_id")
+  /// 파트너가 연결할 때 정한 이름 (형식은 User.nickname과 같고, 마이그레이션 SQL의 CHECK 제약이 함께 지킨다)
+  nickname      String   @db.VarChar(12)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user        User @relation("PartnerOwner", fields: [userId], references: [id], onDelete: Cascade)
+  partnerUser User @relation("PartnerMember", fields: [partnerUserId], references: [id], onDelete: Cascade)
+
+  @@map("p_partners")
+}
