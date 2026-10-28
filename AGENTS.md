@@ -50,7 +50,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - shadcn 컴포넌트 추가: `pnpm dlx shadcn@latest add <component>` → `src/components/ui/`
 - 파일명은 kebab-case.
 
-### 반응형: 모바일/태블릿 전용
+### 반응형: 모바일/태블릿/폴더블 전용
 
 데스크톱 레이아웃은 만들지 않는다. 모든 화면은 `src/layouts/app-shell.tsx`(루트 레이아웃에서 적용)의 폭 안에서만 그려지고, 데스크톱 창에서는 가운데 정렬된 프레임으로 보인다.
 
@@ -58,10 +58,14 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 | --- | --- | --- |
 | 모바일 | < 600px | 기본 스타일 (모바일 우선) |
 | 태블릿 | ≥ 600px | `@tablet:` |
-| 최대 폭 | 768px | `max-w-app` |
+| 펼친 폴더블 | ≥ 840px | `@wide:`, 2단은 `panes` |
+| 최대 폭 | 1200px | `max-w-app` |
 
 - 뷰포트 브레이크포인트(`sm:` `md:` `lg:` …) 대신 컨테이너 쿼리(`@tablet:`)를 쓴다. 셸 폭은 제한되므로 뷰포트 기준은 데스크톱에서 틀린 결과를 낸다.
-- 토큰은 `app/globals.css`의 `@theme`(`--container-tablet`, `--container-app`)에 있다.
+- 토큰은 `app/globals.css`의 `@theme`(`--container-tablet`, `--container-wide`, `--container-app`)에 있다.
+- 폴더블 기준 기기는 갤럭시 Z Fold8(커버 약 475px, 펼침 약 880×1170px)과 Fold8 Ultra(커버 약 412px, 펼침 약 1100px 정사각)다. 커버 화면은 모바일, 펼친 화면은 `@wide:`로 그린다.
+- 펼친 화면의 2단은 `panes`(globals.css)에 자식 두 개를 넣어 만든다. 좁으면 한 줄로 쌓이고, 반쯤 접은 플렉스 모드에서는 접힌 선 양쪽으로 나뉜다.
+- 펼친 화면에서 홈 탭은 왼쪽 홈 · 오른쪽 캘린더를 함께 보여주고(`src/layouts/home-calendar-panes.tsx`), 탭바의 캘린더 탭은 숨는다. 마이페이지는 자기 카드들을 2단으로 나눈다.
 - `fixed` 요소(하단 탭바, 플로팅 버튼 등)는 셸을 벗어나므로 `fixed inset-x-0 mx-auto max-w-app`처럼 폭을 맞추거나, 셸 안에서 `sticky`를 쓴다.
 - 높이는 `h-screen` 대신 `dvh`를 쓰고, 노치 영역은 셸이 `env(safe-area-inset-*)`로 처리한다.
 

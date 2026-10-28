@@ -21,15 +21,17 @@
  * Tailwind theme — OHC 디자인 시스템 토큰만 쓴다 (src/styles/ohc-tokens.css).
  * 기본 Tailwind 팔레트는 지워서 모든 색이 디자인 시스템에서 오게 한다.
  *
- * 앱 폭 기준 (컨테이너 쿼리). 데스크톱에서도 모바일/태블릿 레이아웃만 쓴다.
- * - 모바일: 기본 스타일 (< 600px)
+ * 앱 폭 기준 (컨테이너 쿼리). 데스크톱에서도 모바일/태블릿/펼친 폴더블 레이아웃만 쓴다.
+ * - 모바일: 기본 스타일 (< 600px). 폴더블 커버 화면(Fold8 약 475px, Fold8 Ultra 약 412px)도 여기다.
  * - 태블릿: @tablet: (>= 600px)
- * - 앱 최대 폭: max-w-app (768px)
+ * - 펼친 폴더블: @wide: (>= 840px). Fold8·Fold8 Ultra 안쪽 화면(약 880~1170px)에서 panes로 2단을 만든다.
+ * - 앱 최대 폭: max-w-app (1200px)
  */
 @theme {
   --color-*: initial;
   --container-tablet: 37.5rem;
-  --container-app: 48rem;
+  --container-wide: 52.5rem;
+  --container-app: 75rem;
 }
 
 @theme inline {
@@ -362,5 +364,31 @@
   }
   body {
     @apply bg-background text-foreground text-body-medium;
+  }
+}
+
+/*
+ * 자식 두 개를 좌우 두 단으로 놓는다. 펼친 폴더블(@wide)보다 좁으면 한 줄로 쌓는다.
+ * 반쯤 접은 플렉스 모드에서 접힌 선이 세로로 지나가면(화면 조각 2개) 두 단을 접힌 선 양쪽에 맞춘다.
+ * 셸이 화면을 꽉 채우고, 본문 좌우 여백과 단 사이 간격이 1.5rem(@tablet:px-6, gap-6)이라고 보고 계산한다.
+ */
+@utility panes {
+  display: flex;
+  flex-direction: column;
+  gap: --spacing(4);
+
+  @variant @tablet {
+    gap: --spacing(6);
+  }
+
+  @variant @wide {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+
+    @media (horizontal-viewport-segments: 2) {
+      grid-template-columns: calc(env(viewport-segment-right 0 0) - 3rem) minmax(0, 1fr);
+      column-gap: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0) + 3rem);
+    }
   }
 }

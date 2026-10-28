@@ -1,5 +1,5 @@
-import { HomeContainer } from "@/features/home/home-container";
+import { HomeCalendarPanes } from "@/layouts/home-calendar-panes";
 
 export default function Home() {
-  return <HomeContainer />;
+  return <HomeCalendarPanes tab="home" />;
 }

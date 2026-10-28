@@ -1,5 +1,5 @@
-import { PeriodCalendarContainer } from "@/features/period-calendar/period-calendar-container";
+import { HomeCalendarPanes } from "@/layouts/home-calendar-panes";
 
 export default function CalendarPage() {
-  return <PeriodCalendarContainer />;
+  return <HomeCalendarPanes tab="calendar" />;
 }
